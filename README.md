@@ -647,7 +647,7 @@ python3 -m src.main --iface <network-interface>
 Example:
 
 ```bash
-python3 -m src.main --iface wlp0s20f3
+sudo PYTHONPATH=. venv/bin/python -m src.main --iface wlp0s20f3
 ```
 
 Live mode may require elevated permissions depending on your operating system.

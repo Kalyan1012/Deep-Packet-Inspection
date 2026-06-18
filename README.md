@@ -19,8 +19,9 @@ traffic.
 8. How Blocking Works
 9. Installing and Running
 10. Understanding the Output
-11. Testing
-12. Resume Summary
+11. Docker
+12. Testing
+13. Resume Summary
 
 ---
 
@@ -705,7 +706,71 @@ python3 -c "import dpkt; f=open('output/filtered.pcap','rb'); p=dpkt.pcap.Reader
 
 ---
 
-## 11. Testing
+## 11. Docker
+
+Docker is useful for running the offline PCAP filtering demo in a reproducible
+environment. This is the recommended containerized mode because it does not
+need direct access to the host network interface.
+
+### Build the Image
+
+```bash
+docker build -t python-dpi-engine .
+```
+
+### Run Offline Filtering in Docker
+
+```bash
+docker run --rm \
+  -v "$PWD/output:/app/output" \
+  python-dpi-engine
+```
+
+This reads the sample PCAP inside the image and writes:
+
+```text
+output/filtered.pcap
+```
+
+### Run with Mounted PCAPs and Rules
+
+```bash
+docker run --rm \
+  -v "$PWD/pcaps:/app/pcaps" \
+  -v "$PWD/config:/app/config" \
+  -v "$PWD/output:/app/output" \
+  python-dpi-engine \
+  python -m src.main \
+    --pcap pcaps/test.pcap \
+    --output output/filtered.pcap \
+    --rules config/rules.yaml
+```
+
+### Run Tests in Docker
+
+```bash
+docker run --rm python-dpi-engine python -m pytest
+```
+
+### Live Sniffing in Docker
+
+Live sniffing inside Docker needs extra permissions because the container must
+access the host network interface:
+
+```bash
+docker run --rm \
+  --net=host \
+  --cap-add=NET_RAW \
+  --cap-add=NET_ADMIN \
+  python-dpi-engine \
+  python -m src.main --iface <network-interface>
+```
+
+For demos and resume review, offline PCAP mode is safer and easier to reproduce.
+
+---
+
+## 12. Testing
 
 Run all tests:
 
@@ -724,7 +789,7 @@ Current tests cover:
 
 ---
 
-## 12. Resume Summary
+## 13. Resume Summary
 
 Built a Python-based Deep Packet Inspection engine that parses PCAP traffic,
 tracks network flows, extracts TLS SNI and HTTP Host metadata, classifies
@@ -737,4 +802,11 @@ Short version:
 ```text
 Python DPI and PCAP filtering engine with flow tracking, SNI/HTTP Host
 extraction, configurable rule-based blocking, filtered PCAP output, and tests.
+```
+
+Docker version:
+
+```text
+Containerized the DPI engine with Docker for reproducible PCAP filtering,
+automated test execution, and easy local deployment.
 ```

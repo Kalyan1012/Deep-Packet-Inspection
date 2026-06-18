@@ -16,14 +16,18 @@ class PacketParser:
             if not data:
                 return None
 
-            # 1. Unpack Ethernet Frame Layer-2
-            eth = dpkt.ethernet.Ethernet(data)
-            
-            # 2. Extract IP Layer-3 (Support only IPv4 for now)
-            if not isinstance(eth.data, dpkt.ip.IP):
+            # 1. Unpack Layer-3 IPv4 from either raw IPv4 or Ethernet captures.
+            if data[0] >> 4 == 4:
+                ip = dpkt.ip.IP(data)
+            else:
+                eth = dpkt.ethernet.Ethernet(data)
+                if not isinstance(eth.data, dpkt.ip.IP):
+                    return None
+                ip = eth.data
+
+            # 2. Support only IPv4 for now.
+            if not isinstance(ip, dpkt.ip.IP):
                 return None
-            
-            ip = eth.data
             src_ip = socket.inet_ntoa(ip.src)
             dst_ip = socket.inet_ntoa(ip.dst)
             

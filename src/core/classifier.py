@@ -7,11 +7,27 @@ class Classifier:
     """
 
     DOMAIN_MAP = {
+        "youtube": AppType.YOUTUBE,
         "youtube.com": AppType.YOUTUBE,
         "googlevideo.com": AppType.YOUTUBE,
 
+        "facebook": AppType.FACEBOOK,
         "facebook.com": AppType.FACEBOOK,
+        "fbcdn.net": AppType.FACEBOOK,
 
+        "instagram": AppType.INSTAGRAM,
+        "instagram.com": AppType.INSTAGRAM,
+
+        "netflix": AppType.NETFLIX,
+        "netflix.com": AppType.NETFLIX,
+
+        "telegram": AppType.TELEGRAM,
+        "telegram.org": AppType.TELEGRAM,
+
+        "tiktok": AppType.TIKTOK,
+        "tiktok.com": AppType.TIKTOK,
+
+        "github": AppType.GITHUB,
         "github.com": AppType.GITHUB,
     }
 

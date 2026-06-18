@@ -1,0 +1,19 @@
+rules:
+  - app: YOUTUBE
+    action: FORWARD
+    enabled: true
+
+  - app: FACEBOOK
+    action: DROP
+    enabled: true
+
+  - app: GITHUB
+    action: FORWARD
+    enabled: true
+
+blocked_domains:
+  - facebook.com
+  - fbcdn.net
+
+blocked_ips:
+  - 157.240.221.35

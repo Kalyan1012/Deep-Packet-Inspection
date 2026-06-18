@@ -14,6 +14,14 @@ class PcapReader:
     def __init__(self, pcap_path: str):
         self.pcap_path = Path(pcap_path)
 
+    def get_linktype(self) -> int:
+        """
+        Return the PCAP link-layer type so output files match the input format.
+        """
+        with open(self.pcap_path, "rb") as file:
+            pcap = dpkt.pcap.Reader(file)
+            return pcap.datalink()
+
     def read_packets(self) -> Generator[RawPacket, None, None]:
         """
         Stream packets from a PCAP file.

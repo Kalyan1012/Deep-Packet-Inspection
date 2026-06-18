@@ -1,27 +1,18 @@
-from src.models.enums import Action
-from src.models.enums import AppType
+from src.core.rule_manager import RuleManager
+from src.models.enums import Action, AppType
 from src.models.rule import Rule
 
 
-class RuleEngine:
+class RuleEngine(RuleManager):
     """
-    Evaluates traffic against configured rules.
+    Backward-compatible name for the policy rule manager.
     """
 
     def __init__(self, rules: list[Rule]):
-        self.rules = rules
+        super().__init__(rules=rules)
 
     def evaluate(self, app_type: AppType) -> Action:
         """
         Return action for an application.
         """
-
-        for rule in self.rules:
-
-            if not rule.enabled:
-                continue
-
-            if rule.app_type == app_type:
-                return rule.action
-
-        return Action.FORWARD
+        return super().evaluate(app_type=app_type)

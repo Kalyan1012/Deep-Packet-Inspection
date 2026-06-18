@@ -1,4 +1,4 @@
-# DPI Engine - Deep Packet Inspection System in Python
+# DPI Engine - Deep Packet Inspection System
 
 This document explains the full project from basic networking ideas to the
 Python code architecture. After reading it, you should understand how a packet

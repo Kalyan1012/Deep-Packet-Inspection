@@ -15,7 +15,6 @@ class FlowTracker:
         """
         Create or update a flow from a parsed packet.
         """
-
         flow_key = FlowKey(
             src_ip=packet.src_ip,
             dst_ip=packet.dst_ip,
@@ -34,9 +33,15 @@ class FlowTracker:
 
         return flow
 
+    # 🌟 ADD THIS METHOD BELOW TO FIX THE MAIN.PY CRASH
+    def add_packet(self, packet: ParsedPacket) -> Flow:
+        """
+        Wrapper method to match the main.py API pipeline expectation.
+        """
+        return self.process_packet(packet)
+
     def get_flow_count(self) -> int:
         """
         Return total number of tracked flows.
         """
         return len(self.flows)
-    
